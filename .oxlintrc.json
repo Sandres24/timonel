@@ -4,6 +4,55 @@
     "typescript/no-explicit-any": "off",
     "typescript/no-floating-promises": "error"
   },
+  "overrides": [
+    {
+      "files": [
+        "src/**/domain/**/*.ts"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@nestjs/*"
+                ],
+                "message": "El dominio no puede depender de NestJS."
+              },
+              {
+                "group": [
+                  "typeorm",
+                  "typeorm/*"
+                ],
+                "message": "El dominio no puede depender de TypeORM."
+              },
+              {
+                "group": [
+                  "ioredis"
+                ],
+                "message": "El dominio no puede depender de Redis."
+              },
+              {
+                "group": [
+                  "bullmq"
+                ],
+                "message": "El dominio no puede depender de bullmq."
+              },
+              {
+                "group": [
+                  "**/application/**",
+                  "**/infrastructure/**",
+                  "**/presentation/**"
+                ],
+                "message": "El dominio no puede importar otras capas."
+              }
+            ],
+          }
+        ]
+      }
+    }
+  ],
   "env": {
     "node": true
   }
