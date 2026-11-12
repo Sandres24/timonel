@@ -16,12 +16,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Configurar pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+      - name: Usar Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - run: pnpm ci
+      - run: pnpm install --frozen-lockfile
       - run: pnpm test
 
   build:
@@ -33,17 +37,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Configurar pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 12
+      - name: Usar Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - run: pnpm ci
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build --if-present
 
   check-skip:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Cancel Previous Runs
+      - name: Cancelar Ejecuciones Anteriores
         uses: styfle/cancel-workflow-action@0.13.1
