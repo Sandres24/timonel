@@ -1,4 +1,4 @@
-[![CI](https://github.com/Sandres24/timonel/actions/workflows/ci.yml/badge.svg)](https://github.com/Sandres24/timonel/actions/workflows/ci.yml)
+[![CI](https://github.com/Sandres24/timonel/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Sandres24/timonel/actions/workflows/ci.yml)
 
 # Timonel
 
