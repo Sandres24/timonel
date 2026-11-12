@@ -1,3 +1,5 @@
+[![CI](https://github.com/Sandres24/timonel/actions/workflows/ci.yml/badge.svg)](https://github.com/Sandres24/timonel/actions/workflows/ci.yml)
+
 # Timonel
 
 > Mesa de ayuda con SLA en horas hábiles, asignación automática y reglas configurables. API REST con NestJS construida como monolito modular.
