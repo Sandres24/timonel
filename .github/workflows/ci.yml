@@ -47,7 +47,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build --if-present
+      - run: pnpm build
 
   check-skip:
     runs-on: ubuntu-latest
