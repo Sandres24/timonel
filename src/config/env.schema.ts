@@ -12,6 +12,7 @@ export const EnvValidationSchema = z.object({
   DB_PASSWORD: z.string().nonempty(),
   DB_USER: z.string().nonempty(),
   DB_NAME: z.string().nonempty(),
+  DB_HOST: z.string().nonempty(),
   DB_PORT: portSchema,
   REDIS_PORT: portSchema,
 });
