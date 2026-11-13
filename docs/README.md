@@ -10,6 +10,9 @@
 | [`../CONTRIBUTING.md`](../CONTRIBUTING.md)     | Flujo de trabajo, commits convencionales y definición de hecho | F1-01   |
 | [`architecture.md`](architecture.md)           | Módulos, capas, reglas de dependencia y regla de lint          | F1-01   |
 | [`guides/new-module.md`](guides/new-module.md) | Cómo crear un módulo con las cuatro capas                      | F1-01   |
+| [`guides/migrations.md`](guides/migrations.md) | Migraciones, DataSource y comandos de TypeORM | F1-04   |
+| [`adr/0001-monolito-modular.md`](adr/0001-monolito-modular.md) | Decisión de arquitectura de monolito modular | F1-07   |
+| [`adr/0006-typeorm.md`](adr/0006-typeorm.md) | Decisión de ORM y migraciones | F1-04   |
 
 ## Documentos previstos
 
@@ -19,10 +22,9 @@ Se agregarán cuando se complete la tarjeta indicada.
 | ------------------------------------------------------ | ------- |
 | Integración continua (sección en el README y badge)    | F1-02   |
 | Entorno local y variables de entorno                   | F1-03   |
-| Migraciones y datos semilla                            | F1-04   |
 | Convención de errores, logs y documentación de la API  | F1-05   |
 | Seguridad base                                         | F1-06   |
-| `adr/0001-monolito-modular.md` y `adr/plantilla.md`    | F1-07   |
+| `adr/plantilla.md`                                     | F1-07   |
 | Diagrama y decisiones del modelo de datos de identidad | F1-08   |
 | Autenticación: sesiones y tokens                       | F1-09   |
 | Control de acceso por rol: matriz de permisos          | F1-13   |
