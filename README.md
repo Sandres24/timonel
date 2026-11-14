@@ -30,6 +30,12 @@ Monolito modular: un módulo por dominio, y cada módulo organizado en cuatro ca
 src/
 ├── app.module.ts
 ├── main.ts
+├── application/
+│   └── ports/              (contratos transversales)
+├── infrastructure/
+│   ├── env/                (entorno y validación)
+│   ├── database/           (TypeORM, migraciones y runners)
+│   └── request-context/    (nestjs-cls)
 └── modules/
     ├── identity/
     │   ├── domain/
@@ -80,7 +86,7 @@ pnpm start:dev
 | `pnpm format`    | Da formato al código con Prettier                   |
 | `pnpm test`      | Ejecuta las pruebas unitarias                       |
 
-> La base de datos y los demás servicios se incorporan en fases posteriores. Cuando existan, esta sección se amplía.
+> La configuración de base de datos, migraciones y seeds está documentada en [`docs/guides/migrations.md`](docs/guides/migrations.md).
 
 ## Convenciones de trabajo
 

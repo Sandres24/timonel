@@ -30,10 +30,10 @@ Una migración de un módulo no debe crear, modificar ni eliminar tablas propied
 
 ## DataSource
 
-`src/infrastructure/database/data-source.ts` es la configuración compartida por NestJS y la CLI de TypeORM:
+`src/infrastructure/database/database.options.ts` contiene la configuración compartida por NestJS y la CLI de TypeORM. `src/infrastructure/database/data-source.ts` solo construye el `DataSource` que consume la CLI:
 
 - `DatabaseModule` usa `databaseOptions` para registrar TypeORM dentro de la aplicación.
-- La CLI importa el `default export` (`AppDataSource`) mediante `-d`.
+- La CLI carga el `DataSource` exportado como `AppDataSource` mediante `-d`.
 - `synchronize` permanece desactivado; el esquema cambia únicamente mediante migraciones.
 - Las rutas incluyen `.js` y `.ts` para funcionar tanto desde `src` como desde `dist`.
 
@@ -66,3 +66,26 @@ pnpm migration:generate -- src/modules/<modulo>/infrastructure/database/migratio
 ```
 
 Cada migración debe implementar `up` y `down`. `down` debe revertir únicamente los cambios realizados por su `up`.
+
+## Seeds
+
+Los seeds no forman parte de las migraciones. Las migraciones cambian el esquema; los seeds cargan datos conocidos para desarrollo, pruebas o demostraciones.
+
+El runner común vive en infraestructura y los seeds concretos junto al módulo propietario de sus tablas:
+
+```text
+src/infrastructure/database/runners/
+src/modules/<modulo>/infrastructure/database/seeds/
+src/modules/<modulo>/infrastructure/database/factories/
+```
+
+Se utiliza `typeorm-extension` para ejecutar los seeders y registrar cuáles ya fueron ejecutados. Los seeders deben ser idempotentes: usar identificadores deterministas y `upsert` cuando el dato pueda ejecutarse más de una vez.
+
+Comandos disponibles:
+
+```bash
+pnpm seed
+pnpm seed:clear
+```
+
+`seed:clear` elimina únicamente los datos registrados por los clear-seeders de los módulos y limpia la tabla de seguimiento de seeds. No debe utilizarse como sustituto de `migration:revert` ni ejecutarse contra producción sin revisar su alcance.

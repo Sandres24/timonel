@@ -7,6 +7,32 @@
   "overrides": [
     {
       "files": [
+        "src/**/application/**/*.ts"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@nestjs/*",
+                  "typeorm",
+                  "typeorm/*",
+                  "ioredis",
+                  "bullmq",
+                  "**/infrastructure/**",
+                  "**/presentation/**"
+                ],
+                "message": "Application no puede depender de frameworks ni adaptadores externos."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
         "src/**/domain/**/*.ts"
       ],
       "rules": {

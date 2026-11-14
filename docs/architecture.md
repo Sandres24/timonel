@@ -47,6 +47,8 @@ src/modules/<modulo>/
 └── index.ts
 ```
 
+Las capacidades transversales que no pertenecen a un dominio viven en `src/infrastructure/` (por ejemplo, base de datos y contexto de petición). Sus contratos reutilizables viven en `src/application/ports/`; la infraestructura los implementa y los módulos de NestJS conectan ambas partes.
+
 | Capa              | Contiene                                                                                 | Puede importar                                       | No puede importar                       |
 | ----------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------------------------------------- |
 | `domain/`         | Entidades, objetos de valor, reglas puras, errores de dominio                            | Solo TypeScript y otros archivos de `domain/`        | NestJS, ORM, Redis, colas, otras capas  |
@@ -68,6 +70,17 @@ flowchart LR
 
 El dominio no depende de nadie. La infraestructura depende de la aplicación (implementa sus puertos), y no al revés. Ese es el punto clave: gracias a él, los casos de uso se prueban con un adaptador en memoria y el dominio se prueba sin ningún adaptador.
 
+### Capacidades transversales
+
+Una capacidad transversal sigue el mismo patrón que una dependencia de módulo:
+
+```text
+src/application/ports/<capacidad>.ts
+src/infrastructure/<capacidad>/
+```
+
+Por ejemplo, `RequestContext` es un puerto de aplicación. `RequestContextModule` registra el middleware de `nestjs-cls` y el adaptador que lee el contexto, pero los casos de uso solo dependen del puerto. La implementación concreta puede cambiar sin modificar el dominio ni la aplicación.
+
 ## 4. Reglas entre módulos
 
 1. **Un módulo no lee las tablas de otro.** Cada módulo es dueño de sus datos.
@@ -78,9 +91,9 @@ El dominio no depende de nadie. La infraestructura depende de la aplicación (im
 
 ## 5. Cómo se vigila
 
-### Regla de lint sobre `domain/` (Oxlint)
+### Reglas de lint sobre `domain/` y `application/` (Oxlint)
 
-El proyecto usa **Oxlint** como linter. Impide que el dominio importe frameworks o infraestructura. Agrega este objeto al arreglo `overrides` de `.oxlintrc.json` (si el archivo ya tiene `overrides`, añádelo a la lista existente):
+El proyecto usa **Oxlint** como linter. Impide que el dominio importe frameworks o infraestructura y que `application/` importe frameworks o adaptadores. Las reglas viven en `.oxlintrc.json`.
 
 ```json
 {
@@ -137,7 +150,7 @@ Crea temporalmente en `domain/` un archivo con `import { Injectable } from '@nes
 
 ### Reglas que por ahora se vigilan con revisión
 
-Las reglas entre módulos (sección 4) y las de la capa `application/` y `presentation/` se cumplen por convención y revisión de los pull requests. Más adelante pueden automatizarse con un plugin de límites de módulos si el proyecto lo justifica.
+Las reglas entre módulos (sección 4) y las de la capa `presentation/` se cumplen por convención y revisión de los pull requests. Más adelante pueden automatizarse con un plugin de límites de módulos si el proyecto lo justifica.
 
 ## 6. Convenciones de nombres
 
