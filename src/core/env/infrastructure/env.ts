@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 
-import { EnvSchema, type Environment } from './env.schema.js';
+import { EnvSchema, Environment } from './env.schema.js';
 
 function loadDotEnvFile(): void {
   if (existsSync('.env')) {

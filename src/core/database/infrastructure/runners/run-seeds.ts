@@ -11,9 +11,9 @@ try {
   await withDatabaseLock(queryRunner, 'timonel:seeders', async () => {
     await runSeeders(AppDataSource, {
       seedTracking: true,
-      seeds: ['src/modules/**/infrastructure/database/seeds/*{.js,.ts}'],
+      seeds: ['src/*/infrastructure/database/seeds/*{.js,.ts}'],
       factories: [
-        'src/modules/**/infrastructure/database/factories/*{.js,.ts}',
+        'src/*/infrastructure/database/factories/*{.js,.ts}',
       ],
     });
   });

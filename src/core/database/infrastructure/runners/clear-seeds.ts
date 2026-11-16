@@ -1,4 +1,4 @@
-import type { DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { withDatabaseLock } from 'typeorm-extension';
 
 import { AppDataSource } from '../data-source.js';
