@@ -2,7 +2,7 @@
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "rules": {
     "typescript/no-explicit-any": "off",
-    "typescript/no-floating-promises": "error"
+    "typescript/no-floating-promises": "error",
   },
   "overrides": [
     {
@@ -77,6 +77,36 @@
           }
         ]
       }
+    },
+    {
+      "files": [
+        "src/core/**/*.ts"
+      ],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "**/modules/**"
+                ],
+                "message": "Core no puede importar desde modules, modules sí puede depender de core."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "test/**",
+        "**/*.test.ts",
+        "**/*.spec.ts"
+      ],
+      "rules": {
+        "typescript/unbound-method": "off",
+      },
     }
   ],
   "env": {
