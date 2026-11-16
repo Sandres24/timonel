@@ -47,7 +47,7 @@ src/modules/<modulo>/
 └── index.ts
 ```
 
-Las capacidades transversales que no pertenecen a un dominio viven en `src/infrastructure/` (por ejemplo, base de datos y contexto de petición). Sus contratos reutilizables viven en `src/application/ports/`; la infraestructura los implementa y los módulos de NestJS conectan ambas partes.
+Las capacidades transversales que no pertenecen a un dominio viven en `src/core/<capacidad>/`. Por ejemplo, `env` y `database` concentran configuración y persistencia, mientras que `request-context` contiene su puerto en `application/` y su adaptador en `infrastructure/`.
 
 | Capa              | Contiene                                                                                 | Puede importar                                       | No puede importar                       |
 | ----------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------------------------------------- |
@@ -72,14 +72,14 @@ El dominio no depende de nadie. La infraestructura depende de la aplicación (im
 
 ### Capacidades transversales
 
-Una capacidad transversal sigue el mismo patrón que una dependencia de módulo:
+Una capacidad transversal sigue el mismo patrón de capas, aunque no sea un dominio de negocio:
 
 ```text
-src/application/ports/<capacidad>.ts
-src/infrastructure/<capacidad>/
+src/core/<capacidad>/application/
+src/core/<capacidad>/infrastructure/
 ```
 
-Por ejemplo, `RequestContext` es un puerto de aplicación. `RequestContextModule` registra el middleware de `nestjs-cls` y el adaptador que lee el contexto, pero los casos de uso solo dependen del puerto. La implementación concreta puede cambiar sin modificar el dominio ni la aplicación.
+Por ejemplo, `RequestContext` vive en `src/core/request-context/application/ports/`. `RequestContextModule` registra el middleware de `nestjs-cls` y el adaptador que lee el contexto, pero los consumidores solo dependen del puerto. La implementación concreta puede cambiar sin modificar los módulos de negocio.
 
 ## 4. Reglas entre módulos
 
@@ -87,7 +87,7 @@ Por ejemplo, `RequestContext` es un puerto de aplicación. `RequestContextModule
 2. **Un módulo no importa archivos internos de otro.** Solo importa lo que el otro expone en su `index.ts`.
 3. **Las referencias entre módulos se hacen por identificador**, no por claves foráneas hacia tablas de otro módulo.
 4. **La comunicación entre módulos** se hace llamando a los casos de uso expuestos en `index.ts` o mediante eventos de dominio (estos se introducen en fases posteriores).
-5. **Las dependencias fluyen en un solo sentido.** Por ejemplo, `tickets` puede conocer a `identity` (por identificadores de usuario), pero `identity` no debe conocer a `tickets`. Si ocurre, algo está mal ubicado.
+5. **Las dependencias fluyen en un solo sentido.** Los módulos de `src/modules/` pueden depender de `src/core/` y de la API pública de otros módulos, pero `core` nunca depende de `modules`. Por ejemplo, `tickets` puede conocer a `identity` (por identificadores de usuario), pero `identity` no debe conocer a `tickets`. Si ocurre, algo está mal ubicado.
 
 ## 5. Cómo se vigila
 
@@ -99,7 +99,7 @@ El proyecto usa **Oxlint** como linter. Impide que el dominio importe frameworks
 {
   "overrides": [
     {
-      "files": ["src/modules/*/domain/**/*.ts"],
+      "files": ["src/**/domain/**/*.ts"],
       "rules": {
         "no-restricted-imports": [
           "error",
@@ -146,7 +146,11 @@ Notas:
 
 ### Cómo comprobar que funciona
 
-Crea temporalmente en `domain/` un archivo con `import { Injectable } from '@nestjs/common';` y ejecuta `pnpm lint`: debe fallar con el mensaje de la regla. Después elimina el archivo.
+Crea temporalmente en `src/modules/<modulo>/domain/` un archivo con `import { Injectable } from '@nestjs/common';` y ejecuta `pnpm lint`: debe fallar con el mensaje de la regla. Después elimina el archivo.
+
+### Regla entre `core` y `modules`
+
+Oxlint impide que cualquier archivo de `src/core/` importe desde `src/modules/`. La dirección permitida es `modules → core`; la dirección inversa rompería la independencia de las capacidades compartidas.
 
 ### Reglas que por ahora se vigilan con revisión
 

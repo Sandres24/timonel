@@ -30,7 +30,7 @@ Una migración de un módulo no debe crear, modificar ni eliminar tablas propied
 
 ## DataSource
 
-`src/infrastructure/database/database.options.ts` contiene la configuración compartida por NestJS y la CLI de TypeORM. `src/infrastructure/database/data-source.ts` solo construye el `DataSource` que consume la CLI:
+`src/core/database/infrastructure/database.options.ts` contiene la configuración compartida por NestJS y la CLI de TypeORM. `src/core/database/infrastructure/data-source.ts` solo construye el `DataSource` que consume la CLI:
 
 - `DatabaseModule` usa `databaseOptions` para registrar TypeORM dentro de la aplicación.
 - La CLI carga el `DataSource` exportado como `AppDataSource` mediante `-d`.
@@ -74,7 +74,7 @@ Los seeds no forman parte de las migraciones. Las migraciones cambian el esquema
 El runner común vive en infraestructura y los seeds concretos junto al módulo propietario de sus tablas:
 
 ```text
-src/infrastructure/database/runners/
+src/core/database/infrastructure/runners/
 src/modules/<modulo>/infrastructure/database/seeds/
 src/modules/<modulo>/infrastructure/database/factories/
 ```

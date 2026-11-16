@@ -1,6 +1,6 @@
 # Guía: crear un módulo nuevo
 
-Pasos para agregar un módulo con la estructura de cuatro capas. Ejemplo con un módulo llamado `identity`; sustituye el nombre por el que corresponda.
+Pasos para agregar un módulo de dominio con la estructura de cuatro capas. Ejemplo con un módulo llamado `identity`; sustituye el nombre por el que corresponda.
 
 ## 1. Generar el módulo de NestJS
 
@@ -8,7 +8,7 @@ Pasos para agregar un módulo con la estructura de cuatro capas. Ejemplo con un 
 nest g module modules/identity
 ```
 
-Esto crea `src/modules/identity/identity.module.ts` y lo registra en `AppModule`.
+Esto crea `src/modules/identity/identity.module.ts`. Regístralo explícitamente en `AppModule`.
 
 > `nest g resource` genera una estructura plana (controlador, servicio, DTOs y entidades en la raíz del módulo). Este proyecto no la usa. Si la ejecutas por costumbre, mueve cada archivo a su capa y elimina lo que no necesites.
 
