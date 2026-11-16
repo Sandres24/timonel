@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
-import { EnvValidationSchema } from './config/env.schema.js';
-import { DatabaseModule } from './infrastructure/database/database.module.js';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
+import { EnvModule } from './core/env/env.module.js';
+import { DatabaseModule } from './core/database/database.module.js';
+import { RequestContextModule } from './core/request-context/request-context.module.js';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      validationSchema: EnvValidationSchema,
-    }),
-    DatabaseModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [EnvModule, DatabaseModule, RequestContextModule],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

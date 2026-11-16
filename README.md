@@ -24,25 +24,23 @@ El sistema centraliza las solicitudes como **tickets**, calcula un **SLA** por p
 
 ## Estructura del proyecto
 
-Monolito modular: un módulo por dominio, y cada módulo organizado en cuatro capas.
+Monolito modular: las capacidades compartidas viven en `core/` y los módulos de negocio viven en `modules/`. Cada módulo de negocio se organiza en cuatro capas.
 
 ```text
 src/
 ├── app.module.ts
 ├── main.ts
-└── modules/
+├── core/                    (capacidades compartidas)
+│   ├── env/
+│   ├── database/
+│   └── request-context/
+└── modules/                 (módulos de negocio)
     ├── identity/
-    │   ├── domain/
-    │   ├── application/
-    │   ├── infrastructure/
-    │   ├── presentation/
-    │   ├── identity.module.ts
-    │   └── index.ts
-    ├── tickets/            (misma estructura)
-    └── audit/              (misma estructura)
+    ├── tickets/
+    └── audit/
 ```
 
-Los demás módulos se crean cuando llega su fase.
+Los módulos de negocio se crean cuando llega su fase. `modules/` puede importar capacidades de `core/`, pero `core/` nunca importa desde `modules/`.
 
 | Capa              | Contiene                                                                     |
 | ----------------- | ---------------------------------------------------------------------------- |
@@ -58,6 +56,7 @@ Resumen. El detalle completo está en [`docs/architecture.md`](docs/architecture
 - **Entre capas:** `presentation` depende de `application`, `application` depende de `domain`, e `infrastructure` implementa los puertos definidos en `application`. El dominio no depende de nadie.
 - **El dominio no importa NestJS, el ORM, Redis ni colas.** Una regla del linter (Oxlint) lo vigila.
 - **Entre módulos:** un módulo no lee las tablas de otro ni importa sus archivos internos. Solo usa lo que el otro expone en su `index.ts`.
+- **Entre áreas:** los módulos de `modules/` pueden usar `core/`; las capacidades de `core/` no dependen de `modules/`. Oxlint vigila esta última restricción.
 
 ## Requisitos y puesta en marcha
 
@@ -80,7 +79,7 @@ pnpm start:dev
 | `pnpm format`    | Da formato al código con Prettier                   |
 | `pnpm test`      | Ejecuta las pruebas unitarias                       |
 
-> La base de datos y los demás servicios se incorporan en fases posteriores. Cuando existan, esta sección se amplía.
+> La configuración de base de datos, migraciones y seeds está documentada en [`docs/guides/migrations.md`](docs/guides/migrations.md).
 
 ## Convenciones de trabajo
 

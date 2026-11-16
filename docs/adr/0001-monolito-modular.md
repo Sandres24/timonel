@@ -19,7 +19,7 @@ Timonel es un **monolito modular** en NestJS: una sola aplicación desplegable, 
 
 ### Estructura
 
-Cada módulo vive en `src/modules/<nombre>/` y tiene cuatro capas más su archivo de módulo y su API pública:
+Cada módulo de dominio vive en `src/modules/<nombre>/` y tiene cuatro capas más su archivo de módulo y su API pública:
 
 ```text
 src/modules/<nombre>/
@@ -31,7 +31,7 @@ src/modules/<nombre>/
 └── index.ts           API pública del módulo
 ```
 
-Los módulos iniciales son `identity`, `tickets` y `audit`. Los demás (`assignment`, `sla`, `automation`, `knowledge`, `notifications`, `reporting`) se crean cuando llega su fase. La estructura se crea con `nest g module modules/<nombre>` y las capas a mano; no se usa `nest g resource`, porque genera una estructura plana.
+Los módulos iniciales son `identity`, `tickets` y `audit`. Los demás (`assignment`, `sla`, `automation`, `knowledge`, `notifications`, `reporting`) se crean cuando llega su fase. La estructura se crea con `nest g module <nombre>` y las capas a mano; no se usa `nest g resource`, porque genera una estructura plana.
 
 ### Dependencias entre capas
 
@@ -57,7 +57,7 @@ Los módulos iniciales son `identity`, `tickets` y `audit`. Los demás (`assignm
 
 ### Cómo se vigilan las reglas
 
-El linter (Oxlint) vigila automáticamente que `domain/` no importe NestJS, el ORM, Redis, colas ni otras capas, con una regla `no-restricted-imports` sobre `src/modules/*/domain/**/*.ts`. Las reglas entre módulos se revisan hoy en los pull requests (definición de hecho en `CONTRIBUTING.md`); si se incumplen con frecuencia, se agregará una regla automática.
+El linter (Oxlint) vigila automáticamente que `domain/` no importe NestJS, el ORM, Redis, colas ni otras capas, con una regla `no-restricted-imports` sobre `src/**/domain/**/*.ts`. También impide que `application/` dependa de frameworks o adaptadores y que `core/` importe desde `modules/`. Las reglas entre módulos de negocio se revisan hoy en los pull requests (definición de hecho en `CONTRIBUTING.md`); si se incumplen con frecuencia, se agregará una regla automática.
 
 ## Alternativas consideradas
 

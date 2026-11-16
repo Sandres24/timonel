@@ -28,7 +28,7 @@ Se usa **TypeORM** con `@nestjs/typeorm` 12.0.3
 
 ### DataSource y migraciones
 
-La configuración de conexión vive en `src/infrastructure/database/data-source.ts` y exporta un `DataSource` para la CLI de TypeORM, además de `databaseOptions` para `DatabaseModule`. La aplicación y la CLI usan las mismas opciones; NestJS administra la conexión de la aplicación mediante `TypeOrmModule.forRoot(databaseOptions)`.
+La configuración de conexión vive en `src/core/database/infrastructure/database.options.ts`. `src/core/database/infrastructure/data-source.ts` exporta el `DataSource` para la CLI, mientras que `DatabaseModule` importa las mismas opciones para NestJS. La aplicación y la CLI usan las mismas opciones; NestJS administra la conexión de la aplicación mediante `TypeOrmModule.forRoot(databaseOptions)`.
 
 `synchronize` permanece desactivado. Los cambios de esquema se aplican únicamente mediante migraciones versionadas.
 

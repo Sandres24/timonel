@@ -1,14 +1,11 @@
-import type { DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { withDatabaseLock } from 'typeorm-extension';
 
 import { AppDataSource } from '../data-source.js';
 
-// Estos entrypoints se ejecutan como módulos ESM mediante tsx; usamos
-// top-level await para mantener el flujo asíncrono explícito y propagar errores.
-
-// Registrar aquí los clear-seeders de cada módulo cuando se incorporen.
 type ClearSeeder = (dataSource: DataSource) => Promise<void>;
 
+// Cada módulo que tenga datos sembrados debe registrar aquí su clear-seeder.
 const clearSeeders: ClearSeeder[] = [];
 
 await AppDataSource.initialize();

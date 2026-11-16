@@ -11,6 +11,7 @@
 | [`architecture.md`](architecture.md)           | Módulos, capas, reglas de dependencia y regla de lint          | F1-01   |
 | [`guides/new-module.md`](guides/new-module.md) | Cómo crear un módulo con las cuatro capas                      | F1-01   |
 | [`guides/migrations.md`](guides/migrations.md) | Migraciones, DataSource y comandos de TypeORM | F1-04   |
+| [`guides/request-context.md`](guides/request-context.md) | Contexto de petición con `nestjs-cls` | F1-17   |
 | [`adr/0001-monolito-modular.md`](adr/0001-monolito-modular.md) | Decisión de arquitectura de monolito modular | F1-07   |
 | [`adr/0006-typeorm.md`](adr/0006-typeorm.md) | Decisión de ORM y migraciones | F1-04   |
 

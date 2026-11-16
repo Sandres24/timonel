@@ -6,7 +6,7 @@ const portSchema = z.coerce
   .min(1, 'must be between 1 and 65535')
   .max(65535, 'must be between 1 and 65535');
 
-export const EnvValidationSchema = z.object({
+export const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']),
   PORT: portSchema,
   DB_PASSWORD: z.string().nonempty(),
@@ -16,3 +16,5 @@ export const EnvValidationSchema = z.object({
   DB_PORT: portSchema,
   REDIS_PORT: portSchema,
 });
+
+export type Environment = z.infer<typeof EnvSchema>;

@@ -2,8 +2,6 @@ import { runSeeders, withDatabaseLock } from 'typeorm-extension';
 
 import { AppDataSource } from '../data-source.js';
 
-// Estos entrypoints se ejecutan como módulos ESM mediante tsx; usamos
-// top-level await para mantener el flujo asíncrono explícito y propagar errores.
 await AppDataSource.initialize();
 const queryRunner = AppDataSource.createQueryRunner();
 
@@ -13,9 +11,9 @@ try {
   await withDatabaseLock(queryRunner, 'timonel:seeders', async () => {
     await runSeeders(AppDataSource, {
       seedTracking: true,
-      seeds: ['src/modules/**/infrastructure/database/seeds/*{.js,.ts}'],
+      seeds: ['src/*/infrastructure/database/seeds/*{.js,.ts}'],
       factories: [
-        'src/modules/**/infrastructure/database/factories/*{.js,.ts}',
+        'src/*/infrastructure/database/factories/*{.js,.ts}',
       ],
     });
   });
